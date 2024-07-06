@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>七夕の願い事ゲーム</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff;
+        }
+        #root {
+            max-width: 400px;
+            padding: 20px;
+            background-color: #e6f3ff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #4b0082;
+            text-align: center;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4b0082;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #6a0dad;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const TanabataGame = () => {
+            const [wish, setWish] = React.useState('');
+            const [result, setResult] = React.useState(null);
+            const [showCharacter, setShowCharacter] = React.useState(null);
+
+            const handleWish = () => {
+                if (wish.trim() === '') return;
+                const isGranted = Math.random() < 0.5;
+                setResult(isGranted ? '願いが叶います！' : '願いが叶います！');
+                setShowCharacter(isGranted ? 'orihime-hikoboshi' : 'anpanman');
+            };
+
+            const resetGame = () => {
+                setWish('');
+                setResult(null);
+                setShowCharacter(null);
+            };
+
+            return (
+                <div>
+                    <h1>七夕の願い事ゲーム</h1>
+                    <div>
+                        <input
+                            type="text"
+                            value={wish}
+                            onChange={(e) => setWish(e.target.value)}
+                            placeholder="願い事を入力してください"
+                        />
+                        <button onClick={handleWish}>
+                            願い事を叶えてもらう
+                        </button>
+                    </div>
+                    {result && (
+                        <div style={{textAlign: 'center'}}>
+                            <p><strong>{result}</strong></p>
+                            {showCharacter === 'orihime-hikoboshi' && (
+                                <div>
+                                    <p>織姫様と彦星様が現れました！</p>
+                                    <img src="orihime.png" alt="織姫様と彦星様" />
+                                </div>
+                            )}
+                            {showCharacter === 'anpanman' && (
+                                <div>
+                                    <p>アンパンマンが現れました！</p>
+                                    <img src="anpan.png" alt="アンパンマン" />
+                                </div>
+                            )}
+                            <button onClick={resetGame}>
+                                もう一度遊ぶ
+                            </button>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        ReactDOM.render(<TanabataGame />, document.getElementById('root'));
+    </script>
+</body>
+</html>
